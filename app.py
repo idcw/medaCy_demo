@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template
-from medacy.ner.pipelines import FDANanoDrugLabelPipeline, ClinicalPipeline
 from medacy.ner import Model
 from spacy.displacy import EntityRenderer
 from random import choice
@@ -11,29 +10,20 @@ def init_models():
     all_models = {}
 
     # FDA Drug Labels
-    # fda_entities = ['dose', 'inactiveingredient', 'routeofadministration', 'duration', 'corecomposition',
-    #             'activeingredient', 'volumeofdistribution', 'adversereaction', 'tradename', 'company', 'frequency',
-    #             'co-administereddrug']
-    # fda_pipeline = FDANanoDrugLabelPipeline(metamap=False, entities=fda_entities)
-    # fda_model = Model(fda_pipeline)
-    # fda_model.load("FIXME")  # TODO replace with actual model
-    # all_models["fda"] = fda_model
+    fda_entities = [
+        'dose', 'inactiveingredient', 'routeofadministration', 'duration', 'corecomposition',
+        'activeingredient', 'volumeofdistribution', 'adversereaction', 'tradename', 'company', 'frequency',
+        'co-administereddrug'
+    ]
+    all_models["fda"] = Model.load_external('medacy_model_FDA_nanodrug_labels')
 
     # Clinical Notes
-    clinical_entities = ["CellLine", "Dose", "DoseDuration", "DoseDurationUnits", "DoseFrequency", "DoseRoute",
-                         "DoseUnits", "Endpoint", "EndpointUnitOfMeasure", "GroupName", "GroupSize", "SampleSize",
-                         "Sex", "Species", "Strain", "TestArticle", "TestArticlePurity", "TestArticleVerification",
-                         "TimeAtDose", "TimeAtFirstDose", "TimeAtLastDose", "TimeEndpointAssessed", "TimeUnits",
-                         "Vehicle"]
-    clinical_pipeline = ClinicalPipeline(metamap=None, entities=clinical_entities)
-    clinical_model = Model(clinical_pipeline)
-    clinical_model.load_external('medacy_model_clinical_notes')
-    all_models["clinical"] = clinical_model
-
+    clinical_entities = ['Drug', 'Form', 'Route', 'ADE', 'Reason', 'Frequency', 'Duration', 'Dosage', 'Strength']
+    all_models["clinical"] = Model.load_external('medacy_model_clinical_notes')
 
     # Create list of all entities
     # all_entities = list(set(fda_entities + clinical_entities))
-    all_entities = clinical_entities
+    all_entities = [*fda_entities, *clinical_entities]
 
     return all_models, all_entities
 
@@ -43,15 +33,19 @@ def init_displacy(entities):
     colors = ["#4C2C04", "#1C1505", "#6F663F", "#284D1", "#162C25"]
     # Randomly map colors to entities
     color_scheme = {k: choice(colors) for k in entities}
-    er = EntityRenderer(options={"colors": color_scheme})
+    er = EntityRenderer(
+        options={
+            "colors": color_scheme
+        }
+    )
     return er
 
 
-@app.route('/medacy')
+@app.route('/', methods=["POST"])
 def render_medacy():
     global models, er
-    model_name = request.args.get("model")
-    input_text = request.args.get("text")
+    model_name = request.form["model"]
+    input_text = request.form["text"]
 
     selected_model = models[model_name]
     prediction = selected_model.predict(input_text)
@@ -77,6 +71,5 @@ def initial_output():
 if __name__ == '__main__':
     models, all_entities = init_models()
     er = init_displacy(all_entities)
-    # app.run(host='0.0.0.0', port=5000)
-    app.run(port=5000)
-    # app.run(host="0.0.0.0")
+    print("View at http://127.0.0.1:5000/")
+    app.run(host='0.0.0.0', port=5000)
