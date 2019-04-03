@@ -7,14 +7,23 @@
 <body>
 MedaCy is a medical text mining framework built over spaCy to facilitate the engineering, training and application of machine learning models for medical information extraction.
 
-<!-- Select which model you want to use -->
 
-<!-- Enter desired text -->
+<form method="POST">
+    <!-- Select which model you want to use -->
+    <select name="model">
+        <option value="clinical">Clinical Notes</option>
+        <option value="fda">Nanodrug Labels</option>
+    </select>
 
-<!-- Hit enter! -->
+    <!-- Enter desired text -->
+    <input name="text">
+    <!-- Hit enter! -->
+    <input type="submit">
+</form>
+
 
 <!-- See the displaCy output -->
-{{ predictions }}
+{{ predictions|safe }}
 
 </body>
 </html>
