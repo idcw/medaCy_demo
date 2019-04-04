@@ -5,18 +5,23 @@
     <title>MedaCy Demo</title>
 </head>
 <body>
-MedaCy is a medical text mining framework built over spaCy to facilitate the engineering, training and application of machine learning models for medical information extraction.
+MedaCy is a medical text mining framework built over spaCy to facilitate the engineering, training and application of machine learning models for medical information extraction.<br/>
 
 
 <form method="POST">
     <!-- Select which model you want to use -->
-    <select name="model">
-        <option value="clinical">Clinical Notes</option>
-        <option value="fda">Nanodrug Labels</option>
-    </select>
+{#    <select name="model">#}
+{#        <option value="clinical">Clinical Notes</option>#}
+{#        <option value="fda">Nanodrug Labels</option>#}
+{#    </select>#}
+
+    Choose which model you want to use:<br />
+    <input type="radio" name="model" value="fda" checked="checked">Nanodrug Labels</input>
+    <input type="radio" name="model" value="clinical">Clinical Notes</input>
+    <br />
 
     <!-- Enter desired text -->
-    <input name="text">
+    <input name="text", size="40">
     <!-- Hit enter! -->
     <input type="submit">
 </form>
