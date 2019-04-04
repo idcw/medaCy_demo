@@ -56,7 +56,7 @@ def render_medacy():
         displacy_dict = {"start": int(e[1]), "end": int(e[2]), "label": e[0]}
         displacy_list.append(displacy_dict)
 
-    html = er.render_ents(input_text, displacy_list, "_")
+    html = er.render_ents(input_text, displacy_list, "")
     formatted_entities = html  # TODO integrate output into displayed page
 
     return render_template("index.html", predictions=formatted_entities)
@@ -71,5 +71,5 @@ def initial_output():
 if __name__ == '__main__':
     models, all_entities = init_models()
     er = init_displacy(all_entities)
-    print("View at http://127.0.0.1:5000/")
+    print("For Vagrant, view at http://127.0.0.1:5000/")
     app.run(host='0.0.0.0', port=5000)
