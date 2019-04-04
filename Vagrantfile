@@ -21,5 +21,6 @@ pip3 install flask
 pip3 install git+https://github.com/swfarnsworth/medaCy.git@development
 pip3 install git+https://github.com/NLPatVCU/medaCy_model_clinical_notes.git
 pip3 install git+https://github.com/swfarnsworth/medaCy_model_FDA_nanodrug_labels.git
+python3 -u /vagrant/app.py
 SHELL
 end
