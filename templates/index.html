@@ -13,14 +13,23 @@
     <title>MedaCy Demo</title>
 </head>
 <body>
-MedaCy is a medical text mining framework built over spaCy to facilitate the engineering, training and application of machine learning models for medical information extraction.<br/>
+<h1>MedaCy Demo</h1>
 
+MedaCy is a medical text mining framework built over spaCy to facilitate the engineering, training and application of machine learning models for medical information extraction.
+This demo allows you to select a model created by the NLP@VCU team and see your results instantly.
+<ul>
+    <li>Clinical Notes is designed to evaluate text you might find in a physician's report for a patient visit.</li>
+    <li>Nanodrug Labels is designed to evaluate text from drug labels, like those that come with prescriptions.</li>
+</ul>
 
 <form method="POST">
     <!-- Select which model you want to use -->
     Choose which model you want to use:<br />
-    <input type="radio" name="model" value="fda" checked="checked">Nanodrug Labels</input>
-    <input type="radio" name="model" value="clinical">Clinical Notes</input>
+    <!-- NOTE the values for these buttons must match the name of the dictionary key
+         for that model in app.py
+     -->
+    <input type="radio" name="model" value="clinical" checked="checked">Clinical Notes</input>
+    <input type="radio" name="model" value="fda">Nanodrug Labels</input>
     <br />
 
     <!-- Enter desired text -->
