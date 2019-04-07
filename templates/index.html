@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<style>
+    input[type=text] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+</style>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,19 +18,15 @@ MedaCy is a medical text mining framework built over spaCy to facilitate the eng
 
 <form method="POST">
     <!-- Select which model you want to use -->
-{#    <select name="model">#}
-{#        <option value="clinical">Clinical Notes</option>#}
-{#        <option value="fda">Nanodrug Labels</option>#}
-{#    </select>#}
-
     Choose which model you want to use:<br />
     <input type="radio" name="model" value="fda" checked="checked">Nanodrug Labels</input>
     <input type="radio" name="model" value="clinical">Clinical Notes</input>
     <br />
 
     <!-- Enter desired text -->
-    <input name="text", size="40">
-    <!-- Hit enter! -->
+    <input type="text" name="text", size="40">
+    <!-- Hit enter to generate predictions, or click "submit" -->
+    <input type="submit" style="display: none" />
     <input type="submit">
 </form>
 
