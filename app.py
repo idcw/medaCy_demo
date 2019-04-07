@@ -1,12 +1,13 @@
 from flask import Flask, request, render_template
 from medacy.ner import Model
 from spacy.displacy import EntityRenderer
-from random import choice
+import random
 
 app = Flask(__name__)
 
 
 def init_models():
+    """Creates a dictionary containing all the medaCy models used in this demo."""
     all_models = {}
 
     # FDA Drug Labels
@@ -28,11 +29,18 @@ def init_models():
     return all_models, all_entities
 
 
+def random_color():
+    """Returns the hex code for a random light color."""
+    rand = lambda: random.randint(100, 255)
+    return '#%02X%02X%02X' % (rand(), rand(), rand())
+
+
 def init_displacy(entities):
     """Instantiate the EntityRenderer with a custom color scheme"""
-    colors = ["#4C2C04", "#1C1505", "#6F663F", "#284D1", "#162C25"]
+    colors = ["#9AF4CC", "#f49ac2", "#F9C8DE", "#C2F49A", "#F49AC2"]
     # Randomly map colors to entities
-    color_scheme = {k: choice(colors) for k in entities}
+    color_scheme = {k.upper(): random_color() for k in entities}
+    print(color_scheme)
     er = EntityRenderer(
         options={
             "colors": color_scheme
@@ -55,7 +63,6 @@ def render_medacy():
     for e in entity_tuples:
         displacy_dict = {"start": int(e[1]), "end": int(e[2]), "label": e[0]}
         displacy_list.append(displacy_dict)
-
     html = er.render_ents(input_text, displacy_list, "")
     formatted_entities = html  # TODO integrate output into displayed page
 
