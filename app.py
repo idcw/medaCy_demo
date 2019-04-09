@@ -22,8 +22,6 @@ def init_models():
     clinical_entities = ['Drug', 'Form', 'Route', 'ADE', 'Reason', 'Frequency', 'Duration', 'Dosage', 'Strength']
     all_models["clinical"] = Model.load_external('medacy_model_clinical_notes')
 
-    # Create list of all entities
-    # all_entities = list(set(fda_entities + clinical_entities))
     all_entities = [*fda_entities, *clinical_entities]
 
     return all_models, all_entities
@@ -37,10 +35,7 @@ def random_color():
 
 def init_displacy(entities):
     """Instantiate the EntityRenderer with a custom color scheme"""
-    colors = ["#9AF4CC", "#f49ac2", "#F9C8DE", "#C2F49A", "#F49AC2"]
-    # Randomly map colors to entities
     color_scheme = {k.upper(): random_color() for k in entities}
-    print(color_scheme)
     er = EntityRenderer(
         options={
             "colors": color_scheme
