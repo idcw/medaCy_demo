@@ -1,0 +1,4 @@
+flask
+git+https://github.com/swfarnsworth/medaCy.git@development
+git+https://github.com/NLPatVCU/medaCy_model_clinical_notes.git
+git+https://github.com/swfarnsworth/medaCy_model_FDA_nanodrug_labels.git
